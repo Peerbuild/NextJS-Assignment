@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+.grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+  background-size: 50px 50px; /* Smaller grid boxes */
+  mix-blend-mode: soft-light; /* Blends the grid with the gradient */
+}
+
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -66,3 +75,4 @@
     @apply bg-background text-foreground;
   }
 }
+
