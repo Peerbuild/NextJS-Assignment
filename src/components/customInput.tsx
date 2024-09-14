@@ -40,7 +40,7 @@ export function EmailSubscriptionForm() {
             variant: 'subscribed',
             icon: (
                 <Image
-                    src="/checkcircle.svg"
+                    src="checkCircle.svg"
                     alt="Check"
                     width={20}  
                     height={20}
