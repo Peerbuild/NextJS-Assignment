@@ -9,6 +9,7 @@ interface LayoutProps {
 
 const links = [
     { href: '/', label: 'Home' },
+    {href :'/header', label: 'Header'},
     { href: '/products', label: 'Products' },
     { href: '/solutions', label: 'Solutions' },
     { href: '/contact', label: 'Contact us' },
@@ -18,15 +19,15 @@ const links = [
 
 const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
     return (
-        <div className="flex h-screen bg-black">
+        <div className="flex h-screen bg-[#000101]">
             {/* Sidebar */}
-            <aside className="w-48 bg-black text-white">
+            <aside className="w-48 h-full bg-[#000101] text-white flex flex-col">
                 <div className="py-4 flex justify-center items-center gap-2">
                     <Image src="/Logo.svg" alt="PeerBuild" width={40} height={40} />
                     <h2 className="text-[#ecf3f3] text-base font-semibold">PeerBuild</h2>
                 </div>
 
-                <nav className="mt-1 pt-3 border-r rounded-tr-[10px] border-t border-[#2e2e2e] text-[#ecf3f3] text-base font-semibold flex flex-col pl-6 gap-3">
+                <nav className="mt-1 pt-3 border-r rounded-tr-lg border-t border-[#2e2e2e] flex-grow text-[#ecf3f3] text-base font-semibold flex flex-col pl-6 gap-3">
                     {links.map(({ href, label }) => (
                         <Link key={href} href={href}>
                             {label}
@@ -34,6 +35,8 @@ const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
                     ))}
                 </nav>
             </aside>
+
+
 
             {/* Main content area */}
             <div className="flex-1 flex flex-col overflow-hidden">
@@ -56,12 +59,12 @@ const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
                     </div>
                 </header>
 
-                {/* Page content */}
-                <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
-                    <div className="container bg-[#000101] mx-auto px-6 py-8 text-[#ecf3f3]">
-                        {children}
-                    </div>
-                </main>
+                    {/* Page content */}
+                    <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 max-w-screen-2xl"> 
+                        <div className="container bg-[#000101]  mx-auto px-6 py-8 text-[#ecf3f3]">
+                            {children}
+                        </div>
+                    </main>
             </div>
         </div>
     );
