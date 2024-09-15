@@ -9,7 +9,9 @@
   background-size: 50px 50px; /* Smaller grid boxes */
   mix-blend-mode: soft-light; /* Blends the grid with the gradient */
 }
-
+html {
+  scroll-behavior: smooth;
+}
 
 @layer base {
   :root {
@@ -76,3 +78,16 @@
   }
 }
 
+@layer utilities {
+    /* Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+
+    
+}

@@ -8,7 +8,7 @@ export default function BackgroundLayout({ children }: { children: React.ReactNo
             </div>
 
             
-            <main className="flex-grow">
+            <main className="flex-grow ">
                 {children}
             </main>
         </div>
