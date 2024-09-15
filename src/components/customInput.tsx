@@ -12,8 +12,10 @@ import { Toaster } from "@/components/ui/toaster"
 import Image from 'next/image'
 
 const FormSchema = z.object({
-    email: z.string().email({ message: "Please enter a valid email address." }),
-})
+    email: z.string()
+        .trim()
+        .email({ message: "Please enter a valid email address." }),
+});
 
 const subscribeEmail = async (url: string, { arg }: { arg: { email: string } }) => {
     const res = await fetch(url, {
@@ -84,7 +86,8 @@ export function EmailSubscriptionForm() {
                     />
                     <Button
                         type="submit"
-                        className="relative z-10 bg-[#062826] rounded-lg text-[#ecf3f3] border-[#183d3b] font-semibold hover:bg-[#05201e] transition duration-300 ease-in-out min-w-[100px] h-[40px]"
+                        className={`relative z-10 bg-[#062826] rounded-lg text-[#ecf3f3] border-[#183d3b] font-semibold hover:bg-[#05201e] transition-all duration-300 ease-in-out min-w-[100px] h-[40px] flex items-center justify-center ${isMutating ? 'bg-[#05201e] cursor-wait' : 'hover:bg-[#05201e]'
+                            }`}
                         disabled={isMutating}
                     >
                         {isMutating ? (
@@ -96,7 +99,7 @@ export function EmailSubscriptionForm() {
                                 className="animate-spin"
                             />
                         ) : (
-                            'Subscribe'
+                            'Submit'
                         )}
                     </Button>
                 </form>
