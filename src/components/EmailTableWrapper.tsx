@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import EmailTable from './EmailsTable'; // Import the server component
+import EmailTable from './EmailsTable'; 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Email {

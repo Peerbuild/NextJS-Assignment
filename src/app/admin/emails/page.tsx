@@ -1,9 +1,9 @@
+// app/email/page.tsx
 import EmailsTable from "@/components/EmailTableWrapper";
-import db from "@/lib/dbConnect"
+import db from "@/lib/dbConnect";
 import DashboardLayout from '@/components/layouts/DashBoardLayout';
 
-
-export default async function EmailPage() {
+async function fetchEmails() {
     const emails = await db.subscription.findMany({
         select: {
             email: true,
@@ -25,10 +25,17 @@ export default async function EmailPage() {
 
     const totalEmails = emails.length;
 
+    return { formattedEmails, totalEmails };
+}
+
+export default async function EmailPage() {
+    const { formattedEmails, totalEmails } = await fetchEmails();
+
     return (
         <DashboardLayout>
-            
             <EmailsTable initialEmails={formattedEmails} totalEmails={totalEmails} />
         </DashboardLayout>
     );
 }
+
+export const revalidate = 60; 
