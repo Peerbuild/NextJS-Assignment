@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link'; // Import Link from next/link
 import SidebarNav from './SideBarNav';
 import { ExternalLink } from 'lucide-react';
 
@@ -24,24 +25,29 @@ export default function DashboardLayout({ children }: LayoutProps) {
             <div className="pl-48 flex-1 flex flex-col h-screen">
                 {/* Header */}
                 <header className="sticky top-0 z-999 z-40 bg-[#000101] shadow-md">
-                    <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center"> {/* Use flex to position elements */}
+                    <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
                         <div>
                             <h1 className="text-4xl font-bold text-[#ecf3f3]">Dashboard</h1>
                             <p>
                                 <span className="text-[#afbbbb] text-base font-normal">
                                     Let&apos;s update the content on
                                 </span>
-                                <span className="text-[#ecf3f3] text-base font-normal inline-flex items-center ml-1">
+                                <a
+                                    href="https://peerbuild.tech"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[#ecf3f3] text-base font-normal inline-flex items-center ml-1 hover:underline"
+                                >
                                     peerbuild.tech
                                     <ExternalLink
                                         strokeWidth={3.3}
                                         size={17}
-                                        className="ml-1" />
-                                </span>
+                                        className="ml-1"
+                                    />
+                                </a>
                             </p>
                         </div>
 
-                        
                         <div>
                             <Image src="/avatar.png" alt="Profile" width={40} height={40} className="rounded-full" />
                         </div>
@@ -50,7 +56,7 @@ export default function DashboardLayout({ children }: LayoutProps) {
 
                 {/* Page content with scrolling only in children */}
                 <main className="flex-1">
-                    <div className="mx-auto bg-[#000101]  h-full max-w-screen-2xl p-4 md:p-6 2xl:p-10 text-[#ecf3f3]">
+                    <div className="mx-auto bg-[#000101] h-full max-w-screen-2xl p-4 md:p-6 2xl:p-10 text-[#ecf3f3]">
                         {children}
                     </div>
                 </main>
