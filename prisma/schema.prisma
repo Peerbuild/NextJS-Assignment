@@ -37,3 +37,9 @@ model Account {
 
   @@unique([provider, providerAccountId])
 }
+
+model Subscription {
+  id        String   @id @default(uuid()) @map("_id")
+  email     String   @unique
+  subscribedAt DateTime @default(now())
+}

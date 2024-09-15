@@ -27,6 +27,30 @@ const generateMockData = (count: number) => {
 
 const allEmails = generateMockData(100)
 
+// Convert JSON data to CSV format
+const convertToCSV = (data: { email: string; subscribedOn: string }[]) => {
+    const header = ['Email Address', 'Subscribed on'];
+    const rows = data.map(row => [row.email, row.subscribedOn]);
+
+    return [header, ...rows].map(e => e.join(',')).join('\n');
+}
+
+// Trigger CSV download
+const downloadCSV = (data: { email: string; subscribedOn: string }[]) => {
+    const csv = convertToCSV(data);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    if (link.download !== undefined) { // feature detection
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'emails.csv');
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+}
+
 export default function Page() {
     const [currentPage, setCurrentPage] = useState(1)
     const emailsPerPage = 15
@@ -52,7 +76,11 @@ export default function Page() {
                         <h1 className="text-2xl font-semibold text-[#ecf3f3]">Emails</h1>
                         <p className="text-sm text-[#afbbbb]">Here&apos;s the list of emails of your subscribers.</p>
                     </div>
-                    <Button variant="secondary" className="text-[#062826] text-base font-semibold">
+                    <Button
+                        variant="secondary"
+                        className="text-[#062826] text-base font-semibold"
+                        onClick={() => downloadCSV(allEmails)} // Add this line
+                    >
                         <Download className="mr-2 h-4 w-4" /> Download CSV
                     </Button>
                 </div>

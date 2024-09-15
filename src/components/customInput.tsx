@@ -1,65 +1,67 @@
-"use client"
-
+"use client";
 import React from 'react'
+import useSWRMutation from 'swr/mutation'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { useToast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormMessage,
-} from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Toaster } from "@/components/ui/toaster"
 import Image from 'next/image'
 
 const FormSchema = z.object({
-    email: z.string().email({
-        message: "Please enter a valid email address.",
-    }),
+    email: z.string().email({ message: "Please enter a valid email address." }),
 })
+
+const subscribeEmail = async (url: string, { arg }: { arg: { email: string } }) => {
+    const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(arg),
+    })
+    return res.json()
+}
 
 export function EmailSubscriptionForm() {
     const { toast } = useToast()
+    const { trigger, isMutating } = useSWRMutation('/api/EmailSubscribe', subscribeEmail)
 
     const form = useForm<z.infer<typeof FormSchema>>({
-        resolver: zodResolver(FormSchema), 
-        defaultValues: {
-            email: "",
-        },
+        resolver: zodResolver(FormSchema),
+        defaultValues: { email: "" },
     })
-   
-     
-    
-    function onSubmit(data: z.infer<typeof FormSchema>) {
+
+    async function onSubmit(data: z.infer<typeof FormSchema>) {
+        const trimmedData = { ...data, email: data.email.trim() }
+        const response = await trigger(trimmedData)
+
         toast({
-            variant: 'subscribed',
+            variant: response.error ? 'error' : 'subscribed',
             icon: (
                 <Image
-                    src="checkCircle.svg"
-                    alt="Check"
-                    width={20}  
+                    src={response.error ? "errorCircle.svg" : "checkCircle.svg"}
+                    alt={response.error ? "Error" : "Check"}
+                    width={20}
                     height={20}
                 />
-            ),  
+            ),
             title: (
-                <h4 className="text-start text-white text-sm font-normal">
-                    Email subscribed
+                <h4 className={`text-start ${response.error ? 'text-[#ff9ea1]' : 'text-white'} text-sm font-normal`}>
+                    {response.error ? 'Already Subscribed' : 'Email subscribed'}
                 </h4>
             ),
             description: (
-                <p className=" text-xs font-normal text-[#888888]">
-                    Thanks for subscribing to our newsletter.
+                <p className="text-xs font-normal text-[#888888]">
+                    {response.error ? 'You can only subscribe once' : 'Thanks for subscribing to our newsletter.'}
                 </p>
             ),
         })
+
+        if (!response.error) form.reset()
     }
 
- 
     return (
         <>
             <Form {...form}>
@@ -82,11 +84,21 @@ export function EmailSubscriptionForm() {
                     />
                     <Button
                         type="submit"
-                        className="relative z-10 bg-[#062826] rounded-lg text-[#ecf3f3] border-[#183d3b] font-semibold hover:bg-[#05201e] transition duration-300 ease-in-out"
+                        className="relative z-10 bg-[#062826] rounded-lg text-[#ecf3f3] border-[#183d3b] font-semibold hover:bg-[#05201e] transition duration-300 ease-in-out min-w-[100px] h-[40px]"
+                        disabled={isMutating}
                     >
-                        Submit
+                        {isMutating ? (
+                            <Image
+                                src="/spinner.svg"
+                                alt="Loading"
+                                width={20}
+                                height={20}
+                                className="animate-spin"
+                            />
+                        ) : (
+                            'Subscribe'
+                        )}
                     </Button>
-
                 </form>
             </Form>
             <Toaster />
