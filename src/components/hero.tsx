@@ -36,12 +36,12 @@ export default function HeroSection() {
                         variants={slideInVariants(0)}
                     >
                         <div className="px-2 py-0.5 bg-[#ecf3f3] rounded-full flex items-center gap-1">
-                            <div className="w-4 h-4 relative flex-shrink-0">
+                            <div className="w-4 h-4 relative object-contain flex-shrink-0">
                                 <Image
                                     src="/star.svg"
                                     alt="Star Icon"
-                                    layout="fill"
-                                    objectFit="contain"
+                                    width={18}
+                                    height={18}  
                                 />
                             </div>
                             <span className="text-[#062826] text-xs font-semibold leading-none">

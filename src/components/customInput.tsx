@@ -1,6 +1,5 @@
 "use client";
 import React from 'react'
-import useSWRMutation from 'swr/mutation'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -10,6 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { Input } from "@/components/ui/input"
 import { Toaster } from "@/components/ui/toaster"
 import Image from 'next/image'
+import { subscribeEmail } from "@/app/action"
 
 const FormSchema = z.object({
     email: z.string()
@@ -17,18 +17,9 @@ const FormSchema = z.object({
         .email({ message: "Please enter a valid email address." }),
 });
 
-const subscribeEmail = async (url: string, { arg }: { arg: { email: string } }) => {
-    const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(arg),
-    })
-    return res.json()
-}
-
 export function EmailSubscriptionForm() {
     const { toast } = useToast()
-    const { trigger, isMutating } = useSWRMutation('/api/EmailSubscribe', subscribeEmail)
+    const [isSubmitting, setIsSubmitting] = React.useState(false)
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -36,32 +27,46 @@ export function EmailSubscriptionForm() {
     })
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
-        const trimmedData = { ...data, email: data.email.trim() }
-        const response = await trigger(trimmedData)
+        setIsSubmitting(true)
+        const formData = new FormData()
+        formData.append('email', data.email.trim())
 
-        toast({
-            variant: response.error ? 'error' : 'subscribed',
-            icon: (
-                <Image
-                    src={response.error ? "errorCircle.svg" : "checkCircle.svg"}
-                    alt={response.error ? "Error" : "Check"}
-                    width={20}
-                    height={20}
-                />
-            ),
-            title: (
-                <h4 className={`text-start ${response.error ? 'text-[#ff9ea1]' : 'text-white'} text-sm font-normal`}>
-                    {response.error ? 'Already Subscribed' : 'Email subscribed'}
-                </h4>
-            ),
-            description: (
-                <p className="text-xs font-normal text-[#888888]">
-                    {response.error ? 'You can only subscribe once' : 'Thanks for subscribing to our newsletter.'}
-                </p>
-            ),
-        })
+        try {
+            const response = await subscribeEmail(formData)
 
-        if (!response.error) form.reset()
+            toast({
+                variant: response.error ? 'error' : 'subscribed',
+                icon: (
+                    <Image
+                        src={response.error ? "errorCircle.svg" : "checkCircle.svg"}
+                        alt={response.error ? "Error" : "Check"}
+                        width={20}
+                        height={20}
+                    />
+                ),
+                title: (
+                    <h4 className={`text-start ${response.error ? 'text-[#ff9ea1]' : 'text-white'} text-sm font-normal`}>
+                        {response.error ? 'Already Subscribed' : 'Email subscribed'}
+                    </h4>
+                ),
+                description: (
+                    <p className="text-xs font-normal text-[#888888]">
+                        {response.error ? 'You can only subscribe once' : 'Thanks for subscribing to our newsletter.'}
+                    </p>
+                ),
+            })
+
+            if (!response.error) form.reset()
+        } catch (error) {
+            console.error(error)
+            toast({
+                variant: 'error',
+                title: 'Error',
+                description: 'An unexpected error occurred. Please try again.',
+            })
+        } finally {
+            setIsSubmitting(false)
+        }
     }
 
     return (
@@ -86,11 +91,10 @@ export function EmailSubscriptionForm() {
                     />
                     <Button
                         type="submit"
-                        className={`relative z-10 bg-[#062826] rounded-lg text-[#ecf3f3] border-[#183d3b] font-semibold hover:bg-[#05201e] transition-all duration-300 ease-in-out min-w-[100px] h-[40px] flex items-center justify-center ${isMutating ? 'bg-[#05201e] cursor-wait' : 'hover:bg-[#05201e]'
-                            }`}
-                        disabled={isMutating}
+                        className={`relative z-10 bg-[#062826] rounded-lg text-[#ecf3f3] border-[#183d3b] font-semibold transition-all duration-300 ease-in-out min-w-[100px] h-[40px] flex items-center justify-center ${isSubmitting ? 'cursor-wait' : 'hover:bg-[#05201e]'}`}
+                        disabled={isSubmitting}
                     >
-                        {isMutating ? (
+                        {isSubmitting ? (
                             <Image
                                 src="/spinner.svg"
                                 alt="Loading"
@@ -102,6 +106,7 @@ export function EmailSubscriptionForm() {
                             'Submit'
                         )}
                     </Button>
+
                 </form>
             </Form>
             <Toaster />

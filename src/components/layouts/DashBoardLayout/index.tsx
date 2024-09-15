@@ -55,7 +55,7 @@ export default function DashboardLayout({ children }: LayoutProps) {
 
                 {/* Page content with scrolling only in children */}
                 <main className="flex-1">
-                    <div className="mx-auto bg-[#000101] h-full max-w-screen-2xl p-4 md:p-6 2xl:p-10 text-[#ecf3f3]">
+                    <div className="mx-auto bg-[#000101] h-full w-full p-4 md:p-6 2xl:p-10 text-[#ecf3f3]">
                         {children}
                     </div>
                 </main>

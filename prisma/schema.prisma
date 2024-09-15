@@ -45,7 +45,7 @@ model Subscription {
 }
 
 
-model Header {
+model brand {
   id           String   @id @default(uuid()) @map("_id")
   brandLogoUrl String
   buttonText   String
