@@ -1,4 +1,5 @@
 import db from '@/lib/dbConnect';
+import { revalidatePath } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -27,6 +28,7 @@ export async function POST(req: NextRequest) {
             },
         });
 
+        revalidatePath('/admin/emails')
         return NextResponse.json({ message: 'Subscription successful' }, { status: 200 });
     } catch (error) {
         console.error(error);

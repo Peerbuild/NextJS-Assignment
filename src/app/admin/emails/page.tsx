@@ -38,4 +38,4 @@ export default async function EmailPage() {
     );
 }
 
-export const revalidate = 60; 
+// export const revalidate = 60; 

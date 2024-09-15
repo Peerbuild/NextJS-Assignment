@@ -1,4 +1,3 @@
-// components/EmailsTable.tsx (Client Component)
 "use client";
 
 import { useState } from 'react';
@@ -56,7 +55,7 @@ export default function EmailsTable({ initialEmails, totalEmails }: Props) {
                 </Button>
             </div>
 
-            <EmailTable emails={currentEmails} /> {/* Server component usage */}
+            <EmailTable emails={currentEmails} /> 
 
             <div className="flex justify-between items-center">
                 <Button
