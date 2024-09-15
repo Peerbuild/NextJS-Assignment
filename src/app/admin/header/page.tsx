@@ -33,7 +33,7 @@ export default function Page() {
                         <div className="flex flex-col items-center ">
                             <Button
                                 variant="outline"
-                                className="text-white border-[#2e2e2e] bg-transparent  w-72 h-28 flex flex-col items-center justify-center"
+                                className="text-white border-[#2e2e2e] bg-transparent w-72 h-28 flex flex-col items-center justify-center hover:bg-[#2e2e2e] hover:text-white transition-colors duration-200"
                             >
                                 <Upload size={24} className="mb-2" />
                                 <span className="underline text-white text-base font-semibold underline-offset-2">
@@ -53,7 +53,7 @@ export default function Page() {
                 <div className="grid grid-cols-2 gap-4 items-start">
                     {/* Left side: Heading and subheading */}
                     <div>
-                        <h2 className=" text-white text-base font-semibold">Button</h2>
+                        <h2 className="text-white text-base font-semibold">Button</h2>
                         <p className="text-sm text-[#afbbbb]">
                             This will be displayed as the call to action button in the header.
                         </p>
@@ -64,9 +64,9 @@ export default function Page() {
                         <Input
                             type="email"
                             placeholder="Email"
-                            className=" border-[#2e2e2e] text-[#888888]"
+                            className="border-[#2e2e2e] text-[#888888]"
                         />
-                        <div className="flex items-center  border border-[#2e2e2e] rounded-md  text-[#888888]">
+                        <div className="flex items-center border border-[#2e2e2e] rounded-md text-[#888888]">
                             <span className="pl-3 pr-1 py-1 bg-[#171717] rounded-l-md">
                                 https://
                             </span>
