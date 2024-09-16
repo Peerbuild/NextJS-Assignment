@@ -1,11 +1,13 @@
 import React from 'react'
 import Image from 'next/image'
 import { Button } from "@/components/ui/button"
+import Link from 'next/link'
 
 
 export default function NavBar() {
     return (
         <nav className="absolute top-0 left-0 w-full flex justify-between items-center p-6">
+            <Link href="/">
             <div className="flex items-center">
                 <div className="p-3 rounded-full">
                     <Image
@@ -17,7 +19,8 @@ export default function NavBar() {
                     />
                 </div>
                 <h1 className="text-center text-[#ecf3f3] text-base font-semibold ">PeerBuild</h1>
-            </div>
+                </div>
+            </Link>
             <ul className="flex space-x-8 text-base text-[#afbbbb]">
                 <li><a href="#" className="hover:text-gray-300">Home</a></li>
                 <li><a href="#" className="hover:text-gray-300">Products</a></li>

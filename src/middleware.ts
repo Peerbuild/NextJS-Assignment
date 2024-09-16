@@ -15,23 +15,16 @@ export default auth(req => {
     const isAuth = req.auth;
 
     const isAccessingApiAuthRoute = pathname.startsWith(API_AUTH_PREFIX);
-    const isAccessingAuthRoute = AUTH_ROUTES.some(route => pathname.startsWith(route));
     const isAccessingProtectedRoute = PROTECTED_ROUTES.some(route => pathname.startsWith(route));
 
     if (isAccessingApiAuthRoute) {
         return NextResponse.next();
     }
 
-    if (isAccessingAuthRoute) {
-        if (isAuth) {
-            return NextResponse.redirect(new URL("/", req.url));
-        }
-
-        return NextResponse.next();
-    }
+    
 
     if (!isAuth && isAccessingProtectedRoute) {
-        return NextResponse.redirect(new URL("/login", req.url));
+        return NextResponse.redirect(new URL("/admin/login", req.url));
     }
 });
 

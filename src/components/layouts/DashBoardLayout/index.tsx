@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import SidebarNav from './SideBarNav';
 import { ExternalLink } from 'lucide-react';
+import Link from 'next/link';
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -12,11 +13,13 @@ export default function DashboardLayout({ children }: LayoutProps) {
         <div className="flex h-screen overflow-x-hidden overflow-y-auto">
             {/* Sidebar */}
             <aside className="absolute left-0 top-0 z-99999 w-48 h-full bg-[#000101] text-white flex flex-col overflow-y-hidden">
+                <Link href="/">
+                    
                 <div className="py-4 flex justify-center items-center gap-2">
                     <Image src="/Logo.svg" alt="PeerBuild" width={40} height={40} />
                     <h2 className="text-[#ecf3f3] text-base font-semibold">PeerBuild</h2>
                 </div>
-
+                </Link>
                 <SidebarNav />
             </aside>
 

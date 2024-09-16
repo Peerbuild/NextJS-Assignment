@@ -1,8 +1,18 @@
 import { Button } from "@/components/ui/button"
 import BackgroundLayout from "@/components/layouts/BackGround"
-import { signIn } from "../../../../auth";
+import { signIn, auth } from "../../../../auth";
+import {redirect } from "next/navigation"; 
 
-export default function WelcomePage() {
+export default async function WelcomePage() {
+    const session = await auth()
+    if (session?.user) {
+        if (session.user.isAdmin) {
+            redirect('/admin/header');
+        } else {
+            redirect('/');
+        }
+    }
+
     return (
         <BackgroundLayout>
 

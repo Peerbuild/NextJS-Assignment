@@ -2,9 +2,10 @@
 
 export const API_AUTH_PREFIX = "/api/auth";
 
-export const AUTH_ROUTES = ["/login"];
+export const AUTH_ROUTES = ["/admin/login"];
 
 export const PROTECTED_ROUTES = [
-    // "/admin/login",
-    // your other protected routes
+    
+    '/admin/header',
+    '/admin/emails'
 ]
