@@ -22,7 +22,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     callbacks: {
         async jwt({ token, user }) {
             try {
-                console.log("JWT callback - user:", user);
+               
                 if (user) {
                     let dbUser = await prisma.user.findUnique({
                         where: { email: user.email ?? undefined }
@@ -42,7 +42,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     token.name = dbUser.name;
                     token.isAdmin = adminEmails.includes(dbUser.email!);
                 }
-                console.log("JWT callback - token:", token);
+               
                 return token;
             } catch (error) {
                 console.error("Error in JWT callback:", error);

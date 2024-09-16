@@ -21,7 +21,7 @@ export default function NavBar() {
                 <h1 className="text-center text-[#ecf3f3] text-base font-semibold ">PeerBuild</h1>
                 </div>
             </Link>
-            <ul className="flex space-x-8 text-base text-[#afbbbb]">
+            <ul className="lg:flex hidden  space-x-8 text-base text-[#afbbbb]">
                 <li><a href="#" className="hover:text-gray-300">Home</a></li>
                 <li><a href="#" className="hover:text-gray-300">Products</a></li>
                 <li><a href="#" className="hover:text-gray-300">Solutions</a></li>

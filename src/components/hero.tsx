@@ -23,40 +23,43 @@ const slideInVariants = (i: number) => ({
 export default function HeroSection() {
     return (
         <BackgroundLayout>
-            <header className="py-14"> 
+            <header className="py-14">
                 <NavBar />
             </header>
 
-            <div className="flex-grow flex flex-col justify-center items-center z-10 px-4 py-16 space-y-8">
-                <div className="text-center max-w-3xl mx-auto space-y-6"> 
+            <div className="flex-grow flex flex-col justify-center items-start z-10 px-4 py-16 space-y-8">
+                <div className="text-start max-w-3xl mx-auto flex flex-col md:items-center items-start justify-center lg:mt-0 mt-10 space-y-6 ">
                     <MotionDiv
-                        className="h-6 pl-1 pr-3 py-1 bg-gradient-to-r from-black to-[#062826] rounded-full border border-[#183d3b] inline-flex items-center gap-3 mb-2"
+                        className="h-auto pl-1 pr-3 py-1 bg-gradient-to-r from-black to-[#062826] rounded-full border border-[#183d3b] inline-flex items-center gap-3 md:mb-2 mb-0"
                         initial="hidden"
                         animate="visible"
                         variants={slideInVariants(0)}
                     >
-                        <div className="px-2 py-0.5 bg-[#ecf3f3] rounded-full flex items-center gap-1">
+                        <div className="px-2 py-[2px] bg-[#ecf3f3] rounded-full flex items-center gap-1">
                             <div className="w-4 h-4 relative object-contain flex-shrink-0">
                                 <Image
                                     src="/star.svg"
                                     alt="Star Icon"
                                     width={18}
-                                    height={18}  
+                                    height={18}
                                 />
                             </div>
                             <span className="text-[#062826] text-xs font-semibold leading-none">
                                 Pill Text Main
                             </span>
                         </div>
-                        <span className="text-[#ecf3f3] text-xs font-normal leading-none">
-                            Pill Text Subtitle
-                        </span>
-                        <MoveRight size={18} />
+                        <div className="flex flex-row items-center justify-center gap-2">
+                            <span className="text-[#ecf3f3] text-xs font-normal leading-none">
+                                Pill Text Subtitle
+                            </span>
+                            <MoveRight size={18} />
+                        </div>
+
                     </MotionDiv>
 
                     <MotionH1
                         id="hero-heading"
-                        className="text-5xl sm:text-6xl text-[#afbbbb] font-semibold leading-tight"
+                        className="!mt-0 text-5xl sm:text-6xl text-[#afbbbb] font-semibold lg:leading-normal leading-relaxed text-start md:text-center md:px-12"
                         initial="hidden"
                         animate="visible"
                         variants={slideInVariants(1)}
@@ -65,7 +68,7 @@ export default function HeroSection() {
                     </MotionH1>
 
                     <MotionP
-                        className="text-[#afbbbb] text-base font-normal max-w-lg mx-auto"
+                        className="text-[#afbbbb] leading-6 text-base font-normal max-w-lg mx-auto text-start md:text-center"
                         initial="hidden"
                         animate="visible"
                         variants={slideInVariants(2)}
@@ -74,17 +77,17 @@ export default function HeroSection() {
                     </MotionP>
 
                     <MotionDiv
-                        className="max-w-sm mx-auto"
+                        className="max-w-sm md:mx-auto "
                         initial="hidden"
                         animate="visible"
                         variants={slideInVariants(3)}
                     >
                         <EmailSubscriptionForm />
                     </MotionDiv>
-                </div>  
+                </div>
             </div>
 
-            <footer className="mt-10">
+            <footer className="lg:mt-10 md:mt-48 mt-8">
                 <Stats />
             </footer>
         </BackgroundLayout>

@@ -12,7 +12,7 @@ export default function Stats() {
         <section className="py-8 px-4" aria-labelledby="stats-heading">
             <div className="max-w-3xl mx-auto">
                 <MotionDiv
-                    className="flex gap-24 justify-center items-center"
+                    className="flex lg:gap-24 md:gap-24 sm:gap-16   justify-center items-center"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ staggerChildren: 0.5 }} 
@@ -30,7 +30,7 @@ export default function Stats() {
                             <h3 id={`stat-title-${index}`} className="text-center text-[#afbbbb] text-xs font-semibold uppercase mb-1">
                                 {stat.title}
                             </h3>
-                            <p id={`stat-value-${index}`} className="text-center text-[#afbbbb] text-[40px] font-bold">
+                            <p id={`stat-value-${index}`} className="text-center text-[#afbbbb] text-[40px]  sm:text-[30px] md:text-[36px] font-bold">
                                 {stat.value}
                             </p>
                         </MotionArticle>
