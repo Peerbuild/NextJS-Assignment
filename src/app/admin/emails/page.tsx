@@ -2,6 +2,7 @@
 import EmailsTable from "@/components/EmailTableWrapper";
 import db from "@/lib/dbConnect";
 import DashboardLayout from "@/components/layouts/DashBoardLayout";
+import { format } from "date-fns";
 
 async function fetchEmails() {
   const emails = await db.subscription.findMany({
@@ -16,11 +17,7 @@ async function fetchEmails() {
 
   const formattedEmails = emails.map((email) => ({
     email: email.email,
-    subscribedOn: email.subscribedAt.toLocaleDateString("en-US", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    }),
+    subscribedOn: format(new Date(email.subscribedAt), "d MMM, yyyy"),
   }));
 
   const totalEmails = emails.length;

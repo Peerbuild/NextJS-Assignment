@@ -4,7 +4,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Upload } from "lucide-react";
+import { CloudUpload } from "lucide-react";
 import { useEdgeStore } from "@/lib/edgestore";
 import { useForm } from "react-hook-form";
 import { updateBrandInfo } from "@/app/action";
@@ -137,16 +137,17 @@ export default function Page() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-4 ml-4 pr-24 w-full">
+      <div className="space-y-4 ml-4 lg:pr-24 pr-4 w-full">
         <div>
-          <h1 className="text-2xl font-bold">Header</h1>
+          <h1 className="text-2xl font-bold lg:mb-1 md:mb-1 mb-2">Header</h1>
           <p className="text-sm text-[#afbbbb]">
             Update the content of the header (navbar) of the site.
           </p>
         </div>
         <hr className="border-[#2e2e2e]" />
 
-        <div className="flex gap-5 justify-between">
+        <div className="flex  flex-col sm:flex-row gap-5  justify-between ">
+          {/* left content  */}
           <div className="flex flex-col space-y-1">
             <h2 className="text-base text-white font-semibold">Brand Logo</h2>
             <p className="text-sm text-[#afbbbb]">
@@ -154,7 +155,8 @@ export default function Page() {
             </p>
           </div>
 
-          <div className="flex place-items-start gap-6 pr-32">
+          {/* right content */}
+          <div className="flex place-items-start gap-6 lg:pr-32 md:mb-0 mb-3">
             <div className="w-20 h-20 bg-transparent border transition-all duration-200  ease-in-out border-[#2e2e2e] flex items-center justify-center rounded-lg relative">
               {loading ? (
                 <div className="w-12 h-12 bg-gray-700 animate-pulse rounded-lg"></div>
@@ -172,7 +174,7 @@ export default function Page() {
             <div className="flex flex-col items-center">
               <Button
                 variant="outline"
-                className={`text-white  bg-transparent w-72 h-28 flex flex-col items-center justify-center hover:bg-[#1a1a1a] hover:text-white transition-colors duration-200  ${highlightedFields.brandLogoUrl ? "border-red-500" : "border-[#2e2e2e]"}`}
+                className={`text-white  bg-transparent lg:w-72 md:w-48 w-60  h-28 flex flex-col items-center justify-center hover:bg-[#1a1a1a] hover:text-white transition-colors duration-200  ${highlightedFields.brandLogoUrl ? "border-red-500" : "border-[#2e2e2e]"}`}
                 disabled={isuploading}
                 onClick={handleButtonClick}
               >
@@ -191,7 +193,13 @@ export default function Page() {
                   </div>
                 ) : (
                   <>
-                    <Upload size={24} className="mb-2" />
+                    <CloudUpload
+                      fill="#fff"
+                      stroke="black"
+                      size={12}
+                      strokeWidth={2}
+                      className="mb-2 p-1 w-6 h-6  bg-white rounded-full"
+                    />
                     <span className="underline text-white text-base font-semibold underline-offset-2">
                       Click to upload
                     </span>
@@ -212,12 +220,13 @@ export default function Page() {
           </div>
         </div>
 
-        <hr className="border-gray-700" />
+        <hr className="border-[#2e2e2e] " />
 
         {/* Form Section */}
-        <form onSubmit={handleValidation} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4 items-start">
-            <div>
+        <form onSubmit={handleValidation} className="space-y-6">
+          <div className="flex flex-col sm:grid sm:grid-cols-2 gap-4 items-start">
+            {/* left content */}
+            <div className="flex flex-col md:space-y-0 space-y-2">
               <h2 className="text-white text-base font-semibold">Button</h2>
               <p className="text-sm text-[#afbbbb]">
                 This will be displayed as the call to action button in the
@@ -225,16 +234,25 @@ export default function Page() {
               </p>
             </div>
 
-            <div className="flex flex-col gap-4 pr-32">
+            {/* right content */}
+            <div className="flex flex-col gap-4 lg:pr-32 md:pr-0 pr-4 w-full sm:w-auto">
               <Input
                 type="email"
                 placeholder="Email"
-                className={`border ${highlightedFields.email ? "border-red-500" : "border-[#2e2e2e]"}  transition-all duration-200  ease-in-out text-[#888888]`}
+                className={`border w-full sm:w-auto ${
+                  highlightedFields.email
+                    ? "border-red-500"
+                    : "border-[#2e2e2e]"
+                } transition-all duration-200 ease-in-out text-[#888888]`}
                 {...register("email")}
               />
 
               <div
-                className={`flex items-center border  transition-all duration-200  ease-in-out ${highlightedFields.buttonLink ? "border-red-500" : "border-[#2e2e2e]"} rounded-md text-[#888888]`}
+                className={`flex items-center border w-full sm:w-auto transition-all duration-200 ease-in-out ${
+                  highlightedFields.buttonLink
+                    ? "border-red-500"
+                    : "border-[#2e2e2e]"
+                } rounded-md text-[#888888]`}
               >
                 <span className="pl-3 pr-1 py-1 bg-[#171717] rounded-l-md">
                   https://
@@ -242,16 +260,16 @@ export default function Page() {
                 <input
                   type="text"
                   placeholder="www.youtube.com"
-                  className="flex-1 bg-transparent border-none outline-none focus:ring-0 pl-2"
+                  className="flex-1 bg-transparent border-none outline-none focus:ring-0 pl-2 w-full"
                   {...register("buttonLink")}
                 />
               </div>
             </div>
           </div>
 
-          <hr className="border-gray-700" />
+          <hr className="border-[#2e2e2e]" />
 
-          <div className="flex justify-end space-x-4 pt-4">
+          <div className="flex justify-end space-x-4 pt-4 md:pr-0 pr-5">
             <Button
               variant="outline"
               className="text-[#ecf3f3] border-[#2e2e2e] bg-transparent font-semibold"

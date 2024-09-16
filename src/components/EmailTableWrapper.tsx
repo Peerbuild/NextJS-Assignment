@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import EmailTable from "./EmailsTable";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -15,11 +15,29 @@ interface Props {
   totalEmails: number;
 }
 
-const emailsPerPage = 15;
-
 export default function EmailsTable({ initialEmails, totalEmails }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
+  const [emailsPerPage, setEmailsPerPage] = useState(15);
   const totalPages = Math.ceil(totalEmails / emailsPerPage);
+
+  useEffect(() => {
+    const updateEmailsPerPage = () => {
+      if (window.innerWidth <= 640) {
+        setEmailsPerPage(11);
+      } else {
+        setEmailsPerPage(15);
+      }
+    };
+
+    // Initial setup
+    updateEmailsPerPage();
+
+    // Add event listener to window resize
+    window.addEventListener("resize", updateEmailsPerPage);
+
+    // Cleanup event listener on component unmount
+    return () => window.removeEventListener("resize", updateEmailsPerPage);
+  }, []);
 
   const indexOfLastEmail = currentPage * emailsPerPage;
   const indexOfFirstEmail = indexOfLastEmail - emailsPerPage;
@@ -48,8 +66,8 @@ export default function EmailsTable({ initialEmails, totalEmails }: Props) {
   };
 
   return (
-    <div className="px-6 space-y-4">
-      <div className="flex justify-between mb-7">
+    <div className="md:px-4 px-0  space-y-4">
+      <div className="flex flex-col md:flex-row justify-between mb-7">
         <div className="flex flex-col">
           <h1 className="text-2xl font-semibold text-[#ecf3f3]">Emails</h1>
           <p className="text-sm text-[#afbbbb]">
@@ -58,7 +76,7 @@ export default function EmailsTable({ initialEmails, totalEmails }: Props) {
         </div>
         <Button
           variant="secondary"
-          className="text-[#062826] text-base font-semibold"
+          className="text-[#062826] text-base w-fit h-10 font-semibold mt-4 md:mt-0"
           onClick={downloadCSV}
         >
           Download CSV
@@ -97,6 +115,6 @@ export default function EmailsTable({ initialEmails, totalEmails }: Props) {
 // Helper function to convert emails data to CSV
 const convertToCSV = (data: { email: string; subscribedOn: string }[]) => {
   const header = ["Email Address", "Subscribed on"];
-  const rows = data.map((row) => [row.email, row.subscribedOn]);
+  const rows = data.map((row) => [row.email, `"${row.subscribedOn}"`]);
   return [header, ...rows].map((e) => e.join(",")).join("\n");
 };

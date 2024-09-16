@@ -14,6 +14,14 @@
 }
 html {
   scroll-behavior: smooth;
+  background-color: #000101;
+  background: #000101;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #000101;
+  background: #000101;
 }
 
 @layer base {
