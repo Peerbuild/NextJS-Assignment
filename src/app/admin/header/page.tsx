@@ -8,6 +8,7 @@ import { Upload } from "lucide-react";
 import { useEdgeStore } from '@/lib/edgestore';
 import { useForm } from 'react-hook-form';
 import { updateBrandInfo } from '@/app/action';
+import { revalidatePath } from 'next/cache';
 
 export default function Page() {
     const { edgestore } = useEdgeStore();
@@ -16,6 +17,7 @@ export default function Page() {
     const [logoUrl, setLogoUrl] = useState<string>('');
     const [loading, setLoading] = useState(true); 
     const [brandLogoUrl, setBrandLogoUrl] = useState<string>('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         async function fetchLogo() {
@@ -27,7 +29,7 @@ export default function Page() {
                 
             } catch (error) {
                 console.error("Error fetching logo:", error);
-                setLoading(false); // Set loading to false even if there is an error
+                setLoading(false); 
             }
         }
 
@@ -64,6 +66,8 @@ export default function Page() {
     });
 
     const onSubmit = async (data: any) => {
+        setIsSubmitting(true); // Start submitting state
+
         const formData = new FormData();
         formData.append('brandLogoUrl', brandLogoUrl);
         formData.append('email', data.email);
@@ -72,12 +76,18 @@ export default function Page() {
         try {
             const result = await updateBrandInfo(formData);
             if (result.success) {
-               console.log("Brand info updated successfully");
+               
+                setLogoUrl(brandLogoUrl); 
+                reset(); 
+                revalidatePath('/api/getlogo');
             } else {
                 throw new Error(result.error);
             }
         } catch (error) {
+           
             console.error("Error updating brand info:", error);
+        } finally {
+            setIsSubmitting(false); // End submitting state
         }
     };
 
@@ -205,17 +215,31 @@ export default function Page() {
                 <div className="flex justify-end space-x-4 pt-4">
                     <Button
                         variant={'outline'}
-                        className="text-[#ecf3f3] border-[#2e2e2e] bg-transparent font-semibold"
+                            className="text-[#ecf3f3] border-[#2e2e2e] bg-transparent font-semibold"
+                            disabled={isSubmitting}
                         onClick={()=>reset()}
                     >
                         Cancel
                     </Button>
                     <Button
                         variant="secondary"
-                        className="text-[#062826] font-semibold"
-                        type = "submit"
+                            className={`text-[#062826] font-semibold  transition-all duration-300 ease-in-out
+                                min-w-[80px] h-[36px] flex items-center justify-center  
+                                ${isSubmitting && 'cursor-wait'}`}
+                            type="submit"
+                            disabled={isSubmitting}
                     >
-                        Save Changes
+                            {isSubmitting ? (
+                                <Image
+                                    src="/spinner.svg"
+                                    alt="Loading"
+                                    width={20}
+                                    height={20}
+                                    className="animate-spin"
+                                />
+                            ) : (
+                                'Save Changes'
+                            )}
                     </Button>
                     </div>
                 </form>

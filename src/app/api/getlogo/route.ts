@@ -1,10 +1,7 @@
 import { NextResponse } from 'next/server';
-import db from '@/lib/dbConnect'; // Adjust path according to your project structure
-import { unstable_noStore } from 'next/cache';
-
+import db from '@/lib/dbConnect'; 
 export async function GET() {
     try {
-        unstable_noStore(); 
         const brand = await db.brand.findFirst(); 
 
         if (brand) {
