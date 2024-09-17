@@ -1,8 +1,8 @@
-'use client';
-// if  you want it to be a server componenet i have to remove the inview animation but thats looks good ins maller mobile screens 
+"use client";
+// if  you want it to be a server componenet i have to remove the inview animation but thats looks good ins maller mobile screens
 
-import React, { useEffect, useState, useRef } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useState, useRef } from "react";
+import { motion } from "framer-motion";
 
 // Define the type for a single stat item
 type Stat = {
@@ -31,7 +31,7 @@ export default function StatsClient({ stats }: StatsClientProps) {
       },
       {
         threshold: 0.2, // Trigger when 20% of the section is in view
-      }
+      },
     );
 
     // Capture the current value of sectionRef in a local variable

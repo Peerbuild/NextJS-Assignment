@@ -52,14 +52,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         async session({ session, token }) {
             try {
-                console.log("Session callback - token:", token);
                 if (token) {
                     session.user.id = token.id as string;
                     session.user.email = token.email as string;
                     session.user.name = token.name as string;
                     session.user.isAdmin = token.isAdmin as boolean;
                 }
-                console.log("Session callback - session:", session);
                 return session;
             } catch (error) {
                 console.error("Error in Session callback:", error);

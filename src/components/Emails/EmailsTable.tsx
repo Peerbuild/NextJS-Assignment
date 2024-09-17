@@ -20,7 +20,7 @@ interface Props {
 export default function EmailTable({ emails }: Props) {
   return (
     <div className="rounded-md border border-[#2e2e2e] overflow-hidden">
-      <Table className="w-full">
+      <Table className="w-full" aria-label="Subscribers Table">
         <TableHeader>
           <TableRow className="bg-[#171717] border-b border-[#2e2e2e] hover:bg-[#171717]">
             <TableHead className="text-[#ecf3f3]">Email Address</TableHead>
@@ -29,7 +29,11 @@ export default function EmailTable({ emails }: Props) {
         </TableHeader>
         <TableBody>
           {emails.map((subscriber, index) => (
-            <TableRow key={index} className="hover:bg-transparent">
+            <TableRow
+              key={subscriber.email}
+              className="hover:bg-inherit focus:bg-[#1a1a1a]"
+              aria-label={`Subscription details for ${subscriber.email}`}
+            >
               <TableCell className="text-[#ecf3f3] text-base border-b border-[#2e2e2e]">
                 {subscriber.email}
               </TableCell>

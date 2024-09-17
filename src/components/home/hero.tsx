@@ -1,10 +1,10 @@
 import React from "react";
-import NavBar from "./NavBar";
+import NavBar from "../NavBar";
 import { MoveRight } from "lucide-react";
 import Image from "next/image";
-import { EmailSubscriptionForm } from "./customInput";
-import { MotionDiv, MotionH1, MotionP } from "./MotionDiv";
-import Stats from "./Stats";
+import { EmailSubscriptionForm } from "./EmailInput";
+import { MotionDiv, MotionH1, MotionP } from "../MotionDiv";
+import Stats from "../Stats";
 import BackgroundLayout from "@/components/layouts/BackGround";
 
 const slideInVariants = (i: number) => ({
@@ -39,7 +39,7 @@ export default function HeroSection() {
               <div className="w-4 h-4 relative object-contain flex-shrink-0">
                 <Image src="/star.svg" alt="Star Icon" width={18} height={18} />
               </div>
-              <span className="text-[#062826] text-xs font-semibold leading-none">
+              <span className="text-[#062826]  text-xs font-semibold leading-none">
                 Pill Text Main
               </span>
             </div>
@@ -47,7 +47,7 @@ export default function HeroSection() {
               <span className="text-[#ecf3f3] text-xs font-normal leading-none">
                 Pill Text Subtitle
               </span>
-              <MoveRight size={18} />
+              <MoveRight aria-hidden="true" size={18} />
             </div>
           </MotionDiv>
 

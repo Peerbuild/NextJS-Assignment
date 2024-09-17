@@ -15,17 +15,11 @@ const links = [
   { href: "/admin/emails", label: "Emails", separator: true },
 ];
 
-interface SidebarNavProps {
-  isSidebarOpen: boolean;
-}
-
-export default function SidebarNav({ isSidebarOpen }: SidebarNavProps) {
+export default function SidebarNav() {
   const pathname = usePathname();
 
   return (
-    <nav
-      className={`mt-1 pt-3 border-r border-t rounded-tr-[10px] border-[#2e2e2e] flex-grow text-[#ecf3f3] text-base font-semibold flex flex-col gap-2 transition-colors duration-800 ease-linear  ${isSidebarOpen && "bg-[#171717]"} `}
-    >
+    <nav className="mt-1 pt-3 border-r border-t rounded-tr-[10px] border-[#2e2e2e] flex-grow text-[#ecf3f3] text-base font-semibold flex flex-col gap-2 transition-colors duration-800 ease-linear bg-[#171717] lg:bg-inherit">
       {links.map(({ href, label, separator }, index) => (
         <React.Fragment key={href}>
           {separator && index > 0 && (
@@ -33,7 +27,7 @@ export default function SidebarNav({ isSidebarOpen }: SidebarNavProps) {
           )}
           <Link
             href={href}
-            className={`px-4 py-2 mx-2 rounded-[7px] transition-colors ${
+            className={`px-4 py-2 mx-2 rounded-[7px] transition-colors duration-300 ease-in-out ${
               pathname === href
                 ? "bg-neutral-900 border border-[#2e2e2e]"
                 : "hover:bg-neutral-950"

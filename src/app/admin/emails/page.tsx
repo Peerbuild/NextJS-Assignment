@@ -1,5 +1,5 @@
 // app/email/page.tsx
-import EmailsTable from "@/components/EmailTableWrapper";
+import EmailsTable from "@/components/Emails/EmailTableWrapper";
 import db from "@/lib/dbConnect";
 import DashboardLayout from "@/components/layouts/DashBoardLayout";
 import { format } from "date-fns";

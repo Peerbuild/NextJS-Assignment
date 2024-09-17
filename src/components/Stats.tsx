@@ -1,17 +1,20 @@
 "use client";
 import React, { useRef } from "react";
-import { MotionDiv, MotionArticle } from "./MotionDiv";
-import {  useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+
+type Stat = {
+  title: string;
+  value: string | number;
+};
 
 export default function Stats() {
-  const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef);
-
-  const stats = [
+  const stats: Stat[] = [
     { title: "SOME STATS", value: "+22k" },
     { title: "MORE STATS", value: "+33k" },
     { title: "LOTS OF STATS", value: "+44k" },
   ];
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const isInView = useInView(sectionRef, { once: true });
 
   return (
     <section
@@ -20,14 +23,14 @@ export default function Stats() {
       aria-labelledby="stats-heading"
     >
       <div className="max-w-3xl mx-auto">
-        <MotionDiv
+        <motion.div
           className="flex lg:gap-24 md:gap-24 sm:gap-16 justify-center items-center"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ staggerChildren: 0.5 }}
         >
           {stats.map((stat, index) => (
-            <MotionArticle
+            <motion.article
               key={stat.title}
               className="flex flex-col items-center text-center mx-4"
               initial={{ opacity: 0, y: 20 }}
@@ -35,6 +38,7 @@ export default function Stats() {
               transition={{ duration: 0.5, delay: index * 0.5 }}
               aria-labelledby={`stat-title-${index}`}
               aria-describedby={`stat-value-${index}`}
+              role="article"
             >
               <h3
                 id={`stat-title-${index}`}
@@ -48,9 +52,9 @@ export default function Stats() {
               >
                 {stat.value}
               </p>
-            </MotionArticle>
+            </motion.article>
           ))}
-        </MotionDiv>
+        </motion.div>
       </div>
     </section>
   );

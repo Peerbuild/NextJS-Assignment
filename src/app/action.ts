@@ -58,7 +58,7 @@ const FormSchema = z.object({
 });
 
 export async function subscribeEmail(formData: FormData) {
-  const email = formData.get("email") as string;
+  const email = (formData.get("email") as string).toLowerCase();
 
   const result = FormSchema.safeParse({ email });
 

@@ -23,29 +23,30 @@ const ToastViewport = React.forwardRef<
   />
 ));
 
-
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName;
 
 const toastVariants = cva(
   "group pointer-events-auto relative flex w-full items-center justify-between space-x-2 overflow-hidden rounded-md border p-4 pr-6 shadow-lg transition-all " +
-  // Adjust transition speed and easing for smoother animations
-  "data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none " +
-  "data-[state=open]:animate-in data-[state=closed]:animate-out " +
-  // Modified open state transition
-  "data-[state=open]:transition-all duration-300 ease-out " +
-  // Modified closed state transition with custom cubic-bezier
-  "data-[state=closed]:transition-all duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] " +
-  "data-[state=closed]:fade-out-90 data-[state=closed]:slide-out-to-right-full " +
-  // Slide in from right for all screen sizes with custom cubic-bezier
-  "data-[state=open]:slide-in-from-right-full data-[state=open]:ease-[cubic-bezier(0.34,1.56,0.64,1)] " +
-  // Remove the bottom slide-in for larger screens
-  "sm:data-[state=open]:slide-in-from-right-full sm:data-[state=closed]:slide-out-to-right-full",
+    // Adjust transition speed and easing for smoother animations
+    "data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none " +
+    "data-[state=open]:animate-in data-[state=closed]:animate-out " +
+    // Modified open state transition
+    "data-[state=open]:transition-all duration-300 ease-out " +
+    // Modified closed state transition with custom cubic-bezier
+    "data-[state=closed]:transition-all duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] " +
+    "data-[state=closed]:fade-out-90 data-[state=closed]:slide-out-to-right-full " +
+    // Slide in from right for all screen sizes with custom cubic-bezier
+    "data-[state=open]:slide-in-from-right-full data-[state=open]:ease-[cubic-bezier(0.34,1.56,0.64,1)] " +
+    // Remove the bottom slide-in for larger screens
+    "sm:data-[state=open]:slide-in-from-right-full sm:data-[state=closed]:slide-out-to-right-full",
   {
     variants: {
       variant: {
         default: "border bg-background text-foreground",
-        destructive: "destructive group border-destructive bg-destructive text-destructive-foreground",
-        subscribed: "bg-[#001b0d] text-white border-[#003d1b] shadow rounded-lg",
+        destructive:
+          "destructive group border-destructive bg-destructive text-destructive-foreground",
+        subscribed:
+          "bg-[#001b0d] text-white border-[#003d1b] shadow rounded-lg",
         error: "bg-[#2c0607]  border-[#4d0408] text-white shadow rounded-lg",
       },
     },

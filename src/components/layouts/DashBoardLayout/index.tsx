@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import SidebarNav from "./SideBarNav";
-import { ExternalLink } from "lucide-react";
+import { ChevronRight, ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
 interface LayoutProps {
@@ -14,14 +14,11 @@ export default function DashboardLayout({ children }: LayoutProps) {
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
   return (
-    <div
-      className={`flex h-screen overflow-y-auto  ${isSidebarOpen ? "overflow-hidden" : "overflow-x-hidden"}`}
-    >
+    <div className="flex h-screen">
       {/* Sidebar */}
       <aside
-        className={`absolute z-50 md:mt-0 mt-3 h-full text-white flex flex-col transform transition-transform duration-300 ease-in-out ${
-          isSidebarOpen ? "translate-x-0 " : "-translate-x-full bg-[#000101]"
-        } lg:translate-x-0 lg:relative lg:w-48`}
+        className={`absolute md:mt-0 mt-3 left-0 top z-50 h-full text-white flex flex-col bg-[#000101] lg:fixed lg:w-48 lg:translate-x-0 lg:mt-0 
+          transition-transform duration-300 ease-in-out transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
         style={{ width: isSidebarOpen ? "66%" : "" }}
       >
         <Link href="/" className="hidden lg:block">
@@ -32,30 +29,29 @@ export default function DashboardLayout({ children }: LayoutProps) {
             </h2>
           </div>
         </Link>
-        <SidebarNav isSidebarOpen={isSidebarOpen} />
+        <SidebarNav />
       </aside>
 
       {/* Custom toggle button for small screens */}
       <button
         onClick={toggleSidebar}
-        className="absolute left-0 top-1/2 -translate-y-1/2 z-50 lg:hidden w-6 h-12 bg-[#1e1e1e] text-white flex items-center justify-center"
+        className={`absolute top-1/2 transform -translate-y-1/2 z-50 lg:hidden py-5 h-16 bg-[#1e1e1e] inline-flex items-center justify-center 
+          rounded-tr-lg rounded-br-lg transition-transform duration-300 ease-in-out`}
         style={{
-          borderTopRightRadius: "9999px",
-          borderBottomRightRadius: "9999px",
+          left: isSidebarOpen ? "66%" : "0.5rem", // Syncs with sidebar
         }}
       >
-        <div className="w-2 h-4 flex flex-col justify-between">
-          <div
-            className={`w-1.5 h-1.5 bg-white rounded-full transform transition-transform ${isSidebarOpen ? "rotate-45 translate-y-0.5" : "-rotate-45 -translate-y-0.5"}`}
-          ></div>
-          <div
-            className={`w-1.5 h-1.5 bg-white rounded-full transform transition-transform ${isSidebarOpen ? "-rotate-45 -translate-y-0.5" : "rotate-45 translate-y-0.5"}`}
-          ></div>
+        <div className="w-6 h-6">
+          {isSidebarOpen ? (
+            <ChevronLeft size={20} stroke="#ecf3f3" strokeWidth={3.3} />
+          ) : (
+            <ChevronRight size={20} stroke="#ecf3f3" strokeWidth={3.3} />
+          )}
         </div>
       </button>
 
       {/* Main content area */}
-      <div className="flex-1 flex flex-col h-screen lg:pl-0">
+      <div className="flex-1 flex flex-col lg:pl-48 h-screen overflow-y-auto">
         {/* Header */}
         <header className="sticky top-0 z-40 bg-[#000101] shadow-md">
           <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
@@ -72,7 +68,6 @@ export default function DashboardLayout({ children }: LayoutProps) {
                   className="text-[#ecf3f3] text-base font-normal inline-flex items-center ml-1 hover:underline"
                 >
                   peerbuild.tech
-                  <ExternalLink strokeWidth={3.3} size={17} className="ml-1" />
                 </a>
               </p>
             </div>
@@ -87,6 +82,7 @@ export default function DashboardLayout({ children }: LayoutProps) {
             </div>
           </div>
         </header>
+
         {/* Page content */}
         <main className="flex-1">
           <div className="mx-auto bg-[#000101] h-full w-full p-4 md:p-6 2xl:p-10 text-[#ecf3f3]">
