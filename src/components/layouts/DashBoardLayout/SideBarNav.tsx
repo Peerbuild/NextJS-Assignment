@@ -24,7 +24,7 @@ export default function SidebarNav({ isSidebarOpen }: SidebarNavProps) {
 
   return (
     <nav
-      className={`mt-1 pt-3 border-r border-t rounded-tr-[10px] border-[#2e2e2e] flex-grow text-[#ecf3f3] text-base font-semibold flex flex-col gap-2 ${isSidebarOpen && "bg-[#171717]"} `}
+      className={`mt-1 pt-3 border-r border-t rounded-tr-[10px] border-[#2e2e2e] flex-grow text-[#ecf3f3] text-base font-semibold flex flex-col gap-2 transition-colors duration-800 ease-linear  ${isSidebarOpen && "bg-[#171717]"} `}
     >
       {links.map(({ href, label, separator }, index) => (
         <React.Fragment key={href}>

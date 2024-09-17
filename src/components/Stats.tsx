@@ -1,7 +1,12 @@
-import React from "react";
+"use client";
+import React, { useRef } from "react";
 import { MotionDiv, MotionArticle } from "./MotionDiv";
+import {  useInView } from "framer-motion";
 
 export default function Stats() {
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef);
+
   const stats = [
     { title: "SOME STATS", value: "+22k" },
     { title: "MORE STATS", value: "+33k" },
@@ -9,12 +14,16 @@ export default function Stats() {
   ];
 
   return (
-    <section className="py-8 px-4" aria-labelledby="stats-heading">
+    <section
+      ref={sectionRef}
+      className="py-8 px-4"
+      aria-labelledby="stats-heading"
+    >
       <div className="max-w-3xl mx-auto">
         <MotionDiv
-          className="flex lg:gap-24 md:gap-24 sm:gap-16   justify-center items-center"
+          className="flex lg:gap-24 md:gap-24 sm:gap-16 justify-center items-center"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ staggerChildren: 0.5 }}
         >
           {stats.map((stat, index) => (
@@ -22,7 +31,7 @@ export default function Stats() {
               key={stat.title}
               className="flex flex-col items-center text-center mx-4"
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.5, delay: index * 0.5 }}
               aria-labelledby={`stat-title-${index}`}
               aria-describedby={`stat-value-${index}`}
@@ -35,7 +44,7 @@ export default function Stats() {
               </h3>
               <p
                 id={`stat-value-${index}`}
-                className="text-center text-[#afbbbb] text-[40px]  sm:text-[30px] md:text-[36px] font-bold"
+                className="text-center text-[#afbbbb] text-[40px] sm:text-[30px] md:text-[36px] font-bold"
               >
                 {stat.value}
               </p>

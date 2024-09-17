@@ -19,7 +19,7 @@ export default function DashboardLayout({ children }: LayoutProps) {
     >
       {/* Sidebar */}
       <aside
-        className={`absolute z-50 h-full text-white flex flex-col transform transition-transform duration-300 ease-in-out ${
+        className={`absolute z-50 md:mt-0 mt-3 h-full text-white flex flex-col transform transition-transform duration-300 ease-in-out ${
           isSidebarOpen ? "translate-x-0 " : "-translate-x-full bg-[#000101]"
         } lg:translate-x-0 lg:relative lg:w-48`}
         style={{ width: isSidebarOpen ? "66%" : "" }}
