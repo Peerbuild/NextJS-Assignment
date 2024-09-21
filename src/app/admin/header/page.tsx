@@ -6,11 +6,8 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { CloudUpload } from "lucide-react";
 import { useEdgeStore } from "@/lib/edgestore";
-import { useForm } from "react-hook-form";
 import { updateBrandInfo } from "@/app/action";
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 const schema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -26,6 +23,8 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
   const [brandLogoUrl, setBrandLogoUrl] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [email, setEmail] = useState("");
+  const [buttonLink, setButtonLink] = useState("");
 
   const [highlightedFields, setHighlightedFields] = useState({
     email: false,
@@ -49,9 +48,7 @@ export default function Page() {
     fetchLogo();
   }, []);
 
-  const handleFileSelect = async (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files ? event.target.files[0] : null;
     if (file) {
       try {
@@ -73,37 +70,20 @@ export default function Page() {
     }
   };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<{
-    email: string;
-    buttonLink: string;
-    brandLogoUrl: string;
-  }>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      email: "",
-      buttonLink: "",
-      brandLogoUrl: "",
-    },
-  });
-
-  const onSubmit = async (data: any) => {
+  const onSubmit = async () => {
+    
     setIsSubmitting(true);
     const formData = new FormData();
     formData.append("brandLogoUrl", brandLogoUrl);
-    formData.append("email", data.email);
-    formData.append("buttonLink", data.buttonLink);
+    formData.append("email", email);
+    formData.append("buttonLink", buttonLink);
 
     try {
       const result = await updateBrandInfo(formData);
       if (result.success) {
         setLogoUrl(brandLogoUrl);
-        reset();
-        revalidatePath("/api/getlogo");
+        setEmail("");
+        setButtonLink("");
       } else {
         throw new Error(result.error);
       }
@@ -129,10 +109,12 @@ export default function Page() {
 
   const handleValidation = (event: React.FormEvent) => {
     event.preventDefault();
-    if (errors.email) handleHighlight("email");
-    if (errors.buttonLink) handleHighlight("buttonLink");
+    if (!email) handleHighlight("email");
+    if (!buttonLink) handleHighlight("buttonLink");
     if (!brandLogoUrl) handleHighlight("brandLogoUrl");
-    handleSubmit(onSubmit)();
+    if (email && buttonLink && brandLogoUrl) {
+      onSubmit();
+    }
   };
 
   return (
@@ -146,18 +128,15 @@ export default function Page() {
         </div>
         <hr className="border-[#2e2e2e]" />
 
-        <div className="flex  flex-col sm:flex-row gap-5  justify-between ">
-          {/* left content  */}
+        <div className="flex flex-col sm:flex-row gap-5 justify-between ">
           <div className="flex flex-col space-y-1">
             <h2 className="text-base text-white font-semibold">Brand Logo</h2>
             <p className="text-sm text-[#afbbbb]">
               This will be displayed as the logo in the header.
             </p>
           </div>
-
-          {/* right content */}
           <div className="flex place-items-start gap-6 lg:pr-32 md:mb-0 mb-3">
-            <div className="w-20 h-20 bg-transparent border transition-all duration-200  ease-in-out border-[#2e2e2e] flex items-center justify-center rounded-lg relative">
+            <div className="w-20 h-20 bg-transparent border transition-all duration-200 ease-in-out border-[#2e2e2e] flex items-center justify-center rounded-lg relative">
               {loading ? (
                 <div className="w-12 h-12 bg-gray-700 animate-pulse rounded-lg"></div>
               ) : (
@@ -170,11 +149,10 @@ export default function Page() {
                 />
               )}
             </div>
-
             <div className="flex flex-col items-center">
               <Button
                 variant="outline"
-                className={`text-white  bg-transparent lg:w-72 md:w-48 w-60  h-28 flex flex-col items-center justify-center hover:bg-[#1a1a1a] hover:text-white transition-colors duration-200  ${highlightedFields.brandLogoUrl ? "border-red-500" : "border-[#2e2e2e]"}`}
+                className={`text-white bg-transparent lg:w-72 md:w-48 w-60 h-28 flex flex-col items-center justify-center hover:bg-[#1a1a1a] hover:text-white transition-colors duration-200 ${highlightedFields.brandLogoUrl ? "border-red-500" : "border-[#2e2e2e]"}`}
                 disabled={isuploading}
                 onClick={handleButtonClick}
               >
@@ -187,9 +165,7 @@ export default function Page() {
                       height={50}
                       className="animate-spin"
                     />
-                    <p className="text-xs text-[#888888] font-medium">
-                      Uploading...
-                    </p>
+                    <p className="text-xs text-[#888888] font-medium">Uploading...</p>
                   </div>
                 ) : (
                   <>
@@ -198,14 +174,10 @@ export default function Page() {
                       stroke="black"
                       size={12}
                       strokeWidth={2}
-                      className="mb-2 p-1 w-6 h-6  bg-white rounded-full"
+                      className="mb-2 p-1 w-6 h-6 bg-white rounded-full"
                     />
-                    <span className="underline text-white text-base font-semibold underline-offset-2">
-                      Click to upload
-                    </span>
-                    <p className="text-xs text-[#888888] font-medium mt-1">
-                      PNG, SVG or JPG
-                    </p>
+                    <span className="underline text-white text-base font-semibold underline-offset-2">Click to upload</span>
+                    <p className="text-xs text-[#888888] font-medium mt-1">PNG, SVG or JPG</p>
                   </>
                 )}
               </Button>
@@ -220,48 +192,30 @@ export default function Page() {
           </div>
         </div>
 
-        <hr className="border-[#2e2e2e] " />
+        <hr className="border-[#2e2e2e]" />
 
-        {/* Form Section */}
         <form onSubmit={handleValidation} className="space-y-6">
           <div className="flex flex-col sm:grid sm:grid-cols-2 gap-4 items-start">
-            {/* left content */}
             <div className="flex flex-col md:space-y-0 space-y-2">
               <h2 className="text-white text-base font-semibold">Button</h2>
-              <p className="text-sm text-[#afbbbb]">
-                This will be displayed as the call to action button in the
-                header.
-              </p>
+              <p className="text-sm text-[#afbbbb]">This will be displayed as the call to action button in the header.</p>
             </div>
-
-            {/* right content */}
             <div className="flex flex-col gap-4 lg:pr-32 md:pr-0 pr-4 w-full sm:w-auto">
               <Input
                 type="email"
                 placeholder="Email"
-                className={`border w-full sm:w-auto ${
-                  highlightedFields.email
-                    ? "border-red-500"
-                    : "border-[#2e2e2e]"
-                } transition-all duration-200 ease-in-out text-[#888888]`}
-                {...register("email")}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={`border w-full sm:w-auto ${highlightedFields.email ? "border-red-500" : "border-[#2e2e2e]"}`}
               />
-
-              <div
-                className={`flex items-center border w-full sm:w-auto transition-all duration-200 ease-in-out ${
-                  highlightedFields.buttonLink
-                    ? "border-red-500"
-                    : "border-[#2e2e2e]"
-                } rounded-md text-[#888888]`}
-              >
-                <span className="pl-3 pr-1 py-1 bg-[#171717] rounded-l-md">
-                  https://
-                </span>
+              <div className={`flex items-center border w-full sm:w-auto transition-all duration-200 ease-in-out ${highlightedFields.buttonLink ? "border-red-500" : "border-[#2e2e2e]"}`}>
+                <span className="pl-3 pr-1 py-1 bg-[#171717] rounded-l-md">https://</span>
                 <input
                   type="text"
                   placeholder="www.youtube.com"
+                  value={buttonLink}
+                  onChange={(e) => setButtonLink(e.target.value)}
                   className="flex-1 bg-transparent border-none outline-none focus:ring-0 pl-2 w-full"
-                  {...register("buttonLink")}
                 />
               </div>
             </div>
@@ -274,7 +228,10 @@ export default function Page() {
               variant="outline"
               className="text-[#ecf3f3] border-[#2e2e2e] bg-transparent font-semibold"
               disabled={isSubmitting}
-              onClick={() => reset()}
+              onClick={() => {
+                setEmail("");
+                setButtonLink("");
+              }}
             >
               Cancel
             </Button>
@@ -285,13 +242,7 @@ export default function Page() {
               disabled={isSubmitting}
             >
               {isSubmitting ? (
-                <Image
-                  src="/spinner.svg"
-                  alt="Loading"
-                  width={20}
-                  height={20}
-                  className="animate-spin"
-                />
+                <Image src="/spinner.svg" alt="Loading" width={20} height={20} className="animate-spin" />
               ) : (
                 "Save Changes"
               )}
