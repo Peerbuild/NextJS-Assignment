@@ -82,6 +82,7 @@ export default function Page() {
       const result = await updateBrandInfo(formData);
       if (result.success) {
         setLogoUrl(brandLogoUrl);
+        setBrandLogoUrl("");
         setEmail("");
         setButtonLink("");
       } else {
