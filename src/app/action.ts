@@ -41,7 +41,7 @@ export async function updateBrandInfo(formData: FormData) {
     }
 
     // Revalidate the path to update the UI
-    revalidatePath("/admin/header");
+    revalidatePath("/api/getlogo");
 
     return { success: true };
   } catch (error) {
