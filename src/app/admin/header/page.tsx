@@ -202,17 +202,18 @@ export default function Page() {
                 onChange={(e) => setEmail(e.target.value)}
                 className={`border w-full sm:w-auto ${highlightedFields.email ? "border-red-500" : "border-[#2e2e2e]"}`}
               />
-              <div className={`flex items-center border w-full sm:w-auto transition-all duration-200 ease-in-out ${highlightedFields.buttonLink ? "border-red-500" : "border-[#2e2e2e]"}`}>
+              <div className={`flex items-center border w-full sm:w-auto transition-all duration-200 ease-in-out rounded-md ${highlightedFields.buttonLink ? "border-red-500" : "border-[#2e2e2e]"}`}>
                 <span className="pl-3 pr-1 py-1 bg-[#171717] rounded-l-md">https://</span>
                 <input
                   type="text"
                   placeholder="www.youtube.com"
                   value={buttonLink}
                   onChange={(e) => setButtonLink(e.target.value)}
-                  className="flex-1 bg-transparent border-none outline-none focus:ring-0 pl-2 w-full"
+                  className="flex-1 bg-transparent border-none outline-none focus:ring-0 pl-2 w-full rounded-r-md"
                 />
               </div>
             </div>
+
           </div>
 
           <hr className="border-[#2e2e2e]" />
