@@ -7,13 +7,6 @@ import Image from "next/image";
 import { CloudUpload } from "lucide-react";
 import { useEdgeStore } from "@/lib/edgestore";
 import { updateBrandInfo } from "@/app/action";
-import { z } from "zod";
-
-const schema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
-  buttonLink: z.string().min(1, { message: "Button link is required" }),
-  brandLogoUrl: z.string().min(1, { message: "Please upload an image" }),
-});
 
 export default function Page() {
   const { edgestore } = useEdgeStore();
